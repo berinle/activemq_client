@@ -6,6 +6,7 @@ import javax.jms.Destination
 import javax.jms.MessageProducer
 import javax.jms.Session
 import javax.jms.TextMessage
+import javax.jms.ObjectMessage
 
 import org.apache.activemq.ActiveMQConnection
 import org.apache.activemq.ActiveMQConnectionFactory
@@ -15,16 +16,24 @@ Connection connection = connectionFactory.createConnection()
 connection.start()
 
 Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE)
-Destination dest = session.createQueue('queue.hibernatesearch')
+Destination dest = session.createQueue('HSQ')
 
 MessageProducer prod = session.createProducer(dest)
 
-(1..100).each{
-	TextMessage msg = session.createTextMessage('This is a test ' + new Date())
-	println "sending msg ${it}"
-	prod.send(msg)
+ObjectMessage msg = session.createObjectMessage()
+String applicantId = '2011201712'
+
+def applicantList = []
+applicantList << '2011201714' << '2011201718' << '2011274547'
+
+msg.setObject(applicantList)
+//msg.setObject(applicantId)
+//msg.setJMSMessageID('legacy')
+
+println "sending msg ${msg}"
+prod.send(msg)
 	
-	Thread.sleep(1000)
-}
 
 println "Done!"
+
+System.exit(0)
