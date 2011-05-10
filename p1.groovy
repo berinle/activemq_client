@@ -16,22 +16,26 @@ Connection connection = connectionFactory.createConnection()
 connection.start()
 
 Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE)
-Destination dest = session.createQueue('HSQ')
+Destination dest = session.createQueue('ERAS.Lucene.Queue')
 
 MessageProducer prod = session.createProducer(dest)
 
 ObjectMessage msg = session.createObjectMessage()
-String applicantId = '2011201712'
+//String applicantId = '2011201712'
+String applicantId = '2011201714'
 
 def applicantList = []
 applicantList << '2011201714' << '2011201718' << '2011274547'
 
-msg.setObject(applicantList)
+//msg.setObject(applicantList)
 //msg.setObject(applicantId)
 //msg.setJMSMessageID('legacy')
 
+applicantList.each {
+	msg.setObject(it)
 println "sending msg ${msg}"
 prod.send(msg)
+}
 	
 
 println "Done!"
