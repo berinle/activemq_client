@@ -10,8 +10,7 @@ Connection connection = connectionFactory.createConnection()
 connection.start()
 
 Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE)
-//Destination dest = session.createQueue('queue.hibernatesearch')
-Destination dest = session.createQueue('HibernateSearchController')
+Destination dest = session.createQueue('ERAS.Lucene.Queue')
 
 MessageConsumer consumer = session.createConsumer(dest)
 

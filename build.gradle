@@ -26,7 +26,19 @@ task(produce, dependsOn: 'classes', type:JavaExec){
     maxHeapSize = "512M"
 }
 
-defaultTasks 'produce'
+task(javaProduce, dependsOn: 'classes', type:JavaExec){
+    main = "Producer"
+    classpath = sourceSets.main.runtimeClasspath
+    maxHeapSize = "512M"
+}
+
+task(javaConsume, dependsOn: 'classes', type:JavaExec){
+    main = "Consumer"
+    classpath = sourceSets.main.runtimeClasspath
+    maxHeapSize = "512M"
+}
+
+defaultTasks 'javaProduce'
 
 
 dependencies {
